@@ -1,0 +1,18 @@
+[versions]
+
+# == Kotlin ==
+kotlin = "2.4.20"
+
+# == Android ==
+android_plugin = "9.4.0"
+
+# == Publish ==
+maven_publish = "0.37.0"
+
+[libraries]
+
+[plugins]
+
+kotlin-multiplatform         = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-android               = { id = "com.android.kotlin.multiplatform.library", version.ref = "android_plugin" }
+maven-publish                = { id = "com.vanniktech.maven.publish", version.ref = "maven_publish" }

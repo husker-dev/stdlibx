@@ -1,6 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
-rootProject.name = "os-utils"
+rootProject.name = "stdlibx"
+
+include("modules:core")
+include("modules:io")
 
 pluginManagement {
     repositories {

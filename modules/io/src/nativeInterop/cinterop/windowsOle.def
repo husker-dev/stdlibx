@@ -1,6 +1,0 @@
-package = com.huskerdev.stdlibx.io.interop
-headers = objbase.h
-linkerOpts = -lole32
----
-// Keep the system library dependency in the klib for downstream consumers too.
-void __stdcall CoTaskMemFree(void *memory);

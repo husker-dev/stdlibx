@@ -1,0 +1,4 @@
+package = com.huskerdev.stdlibx.process.interop
+headers = process_unix.h
+headerFilter = process_unix.h
+compilerOpts = -D_GNU_SOURCE

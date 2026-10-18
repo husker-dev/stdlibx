@@ -1,8 +1,0 @@
-package = com.huskerdev.stdlibx.io.interop
-headers = sys/stat.h fcntl.h
-compilerOpts = -D_GNU_SOURCE
----
-// These declarations are missing from the prebuilt Linux platform bindings.
-int utimensat(int fd, const char *path, const struct timespec times[2], int flags);
-#define IO_AT_FDCWD AT_FDCWD
-#define IO_AT_SYMLINK_NOFOLLOW AT_SYMLINK_NOFOLLOW

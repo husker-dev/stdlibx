@@ -5,8 +5,6 @@ import com.android.build.api.withAndroid
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.konan.target.Family
 
 plugins {
     alias(libs.plugins.kotlin.android)
@@ -50,23 +48,15 @@ kotlin {
         }
     }
 
-    // Skip Web tests on Node.js and vice versa
     listOf(
         wasmJs(), js()
     ).forEach {
         it.browser {
             testTask {
                 useKarma { useChromeHeadless() }
-                filter.excludeTestsMatching("com.huskerdev.stdlibx.io.fs.nodejs.*")
-                filter.excludeTestsMatching("com.huskerdev.stdlibx.io.fs.WholeFileTest")
             }
         }
-        it.nodejs {
-            testTask {
-                filter.excludeTestsMatching("com.huskerdev.stdlibx.io.fs.opfs.*")
-                filter.excludeTestsMatching("com.huskerdev.stdlibx.io.fs.indexeddb.*")
-            }
-        }
+        it.nodejs()
     }
 
     android {
@@ -82,26 +72,10 @@ kotlin {
         }
     }
 
-    listOf(mingwX64()).forEach { target ->
-        target.compilations.getByName("main").cinterops.create("windowsOle") {
-            definitionFile.set(project.file("src/nativeInterop/cinterop/windowsOle.def"))
-        }
-    }
-    listOf(linuxX64(), linuxArm64()).forEach { target ->
-        target.compilations.getByName("main").cinterops.create("unixFileSystemLinux") {
-            definitionFile.set(project.file("src/nativeInterop/cinterop/unixFileSystemLinux.def"))
-        }
-    }
+    mingwX64()
+    linuxX64()
+    linuxArm64()
     macosArm64()
-
-    targets.withType<KotlinNativeTarget>().configureEach {
-        if (konanTarget.family == Family.LINUX || konanTarget.family == Family.OSX) {
-            compilations.getByName("main").cinterops.create("processUnix") {
-                definitionFile.set(project.file("src/nativeInterop/cinterop/processUnix.def"))
-                includeDirs(project.file("src/nativeInterop/cinterop"))
-            }
-        }
-    }
 
     sourceSets {
         commonMain.dependencies {

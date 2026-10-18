@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.huskerdev.stdlibx.ContextProvider
-import com.huskerdev.stdlibx.io.Resource
 import com.huskerdev.stdlibx.io.use
 import java.io.File
 import java.io.FileNotFoundException
@@ -71,7 +70,7 @@ class AndroidContentPathTest {
     fun readsOpaqueUriAndPreservesStreamSemantics() {
         val bytes = ByteArray(65_537) { it.toByte() }
         file.writeBytes(bytes)
-        val path = assertIs<AndroidContentPath>(Resource(uri.toString()))
+        val path = assertIs<AndroidContentPath>(AndroidContentPathImpl(uri.toString()))
         path.asSync()!!.newInputStream().use { input ->
             assertTrue(input.hasNext())
             assertTrue(input.hasNext())
@@ -175,7 +174,7 @@ class AndroidContentPathTest {
             )) assertFailsWith<IllegalArgumentException> { AndroidContentPathImpl(invalid) }
         file.writeBytes(byteArrayOf(1))
         val value = uri.toString().replaceFirst("content://", "CONTENT://")
-        val path = assertIs<AndroidContentPath>(Resource(value))
+        val path = assertIs<AndroidContentPath>(AndroidContentPathImpl(value))
         assertEquals(value, path.pathString)
         path.asSync()!!.newInputStream().use {
             assertContentEquals(byteArrayOf(1), it.readAllBytes())

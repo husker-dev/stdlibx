@@ -4,6 +4,8 @@ rootProject.name = "stdlibx"
 
 include("modules:core")
 include("modules:io")
+include("modules:fs")
+include("modules:process")
 
 pluginManagement {
     repositories {

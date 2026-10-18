@@ -43,9 +43,14 @@ actual fun env(): Map<String, String> {
 actual val workingDir: String =
     js("typeof process !== 'undefined' ? process.cwd() : \"/\"")
 
-actual val systemLineSeparator: String = if(isNodeJs && OS.isWindows) "\r\n" else "\n"
-actual val systemPathSeparator: String = if(isNodeJs && OS.isWindows) ";" else ":"
-actual val systemSeparator: String = if(isNodeJs && OS.isWindows) "\\" else "/"
+actual val systemLineSeparator: String
+    get() = if(isNodeJs && OS.isWindows) "\r\n" else "\n"
+
+actual val systemPathSeparator: String
+    get() = if(isNodeJs && OS.isWindows) ";" else ":"
+
+actual val systemSeparator: String
+    get() = if(isNodeJs && OS.isWindows) "\\" else "/"
 
 actual fun addShutdownHook(action: () -> Unit): Unit =
     js("if(typeof process !== 'undefined') process.on(\"exit\", action)")

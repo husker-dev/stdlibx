@@ -2,8 +2,22 @@
 
 package com.huskerdev.stdlibx.io
 
-import com.huskerdev.stdlibx.io.fs.nodejs.nodeBuffer
-import com.huskerdev.stdlibx.io.fs.nodejs.nodeFs
+private external interface StandardNodeBuffer : JsAny {
+    fun readUInt8(offset: Int): Int
+    fun writeUInt8(value: Int, offset: Int): Int
+}
+
+private external interface StandardNodeBufferConstructor : JsAny {
+    fun alloc(size: Int): StandardNodeBuffer
+}
+
+private external interface StandardNodeFs : JsAny {
+    fun readSync(fd: Int, buffer: StandardNodeBuffer, offset: Int, length: Int, position: JsAny?): Int
+    fun writeSync(fd: Int, buffer: StandardNodeBuffer, offset: Int, length: Int, position: JsAny?): Int
+}
+
+private fun nodeBuffer(): StandardNodeBufferConstructor = js("process.getBuiltinModule('buffer').Buffer")
+private fun nodeFs(): StandardNodeFs = js("process.getBuiltinModule('fs')")
 
 private fun isNodeStandardStream(): Boolean =
     js("typeof process !== 'undefined' && !!process.versions && !!process.versions.node")

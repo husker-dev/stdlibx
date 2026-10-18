@@ -1,22 +1,13 @@
 package com.huskerdev.stdlibx.io
 
-import kotlin.jvm.JvmName
-
-internal expect fun suitableResourceForPath(path: String): Resource
-
 /**
  * A readable resource. I/O failures throw [IOException]; policy denials throw [SecurityException].
  * Unsupported operations throw [UnsupportedOperationException].
  */
 interface Resource {
-    companion object {
-        /** Resolves [path] to the resource type supported by the current platform. */
-        @JvmName("of")
-        operator fun invoke(path: String): Resource = suitableResourceForPath(path)
-    }
-
     /** Returns a synchronous view, or null if synchronous access is unavailable. */
     fun asSync(): SyncResource?
+
     /** Returns an asynchronous view of this resource. */
     fun asAsync(): AsyncResource
 }
@@ -25,6 +16,7 @@ interface Resource {
 interface SyncResource: Resource {
     /** Returns the resource's MIME type. */
     fun mimeType(): String
+
     /** Opens a new input stream; the caller is responsible for closing it. */
     fun newInputStream(): SyncInputStream
 }
@@ -33,6 +25,7 @@ interface SyncResource: Resource {
 interface AsyncResource: Resource {
     /** Returns the resource's MIME type. */
     suspend fun mimeType(): String
+    
     /** Opens a new input stream; the caller is responsible for closing it. */
     suspend fun newInputStream(): AsyncInputStream
 }

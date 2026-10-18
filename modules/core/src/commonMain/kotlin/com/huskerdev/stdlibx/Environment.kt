@@ -23,6 +23,10 @@ expect fun env(): Map<String, String>
 
 expect val workingDir: String
 
+expect val systemLineSeparator: String
+expect val systemPathSeparator: String
+expect val systemSeparator: String
+
 expect val isShutdownHookSupported: Boolean
 
 expect fun addShutdownHook(action: () -> Unit)

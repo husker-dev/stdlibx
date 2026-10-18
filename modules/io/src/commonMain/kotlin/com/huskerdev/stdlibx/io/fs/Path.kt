@@ -20,6 +20,8 @@ interface Path: WritableResource {
 
         /** Creates a default-file-system path, or returns null if synchronous access is unavailable. */
         fun syncOf(vararg path: String) = Path(*path).asSync()
+            ?: throw UnsupportedOperationException("Sync Path is not available in the current system")
+
         /** Creates an asynchronous path in the default file system. */
         fun asyncOf(vararg path: String) = Path(*path).asAsync()
     }
@@ -132,6 +134,16 @@ interface Path: WritableResource {
 
 /** A path with blocking file operations. Unsupported metadata is returned as null where applicable. */
 interface SyncPath: Path, SyncWritableResource {
+    companion object {
+        /**
+         * Creates a path in [FileSystem.default].
+         * @throws IllegalStateException if no default file system is available.
+         */
+        operator fun invoke(vararg path: String): SyncPath =
+            Path(*path).asSync()
+                ?: throw UnsupportedOperationException("Sync Path is not available in the current system")
+    }
+
     override val fileSystem: SyncFileSystem
 
     override fun mimeType(): String = fileSystem.mimeType(this)
@@ -294,7 +306,7 @@ interface SyncPath: Path, SyncWritableResource {
     ): Unit = FileTreeWalker(maxDepth, followLinks).walk(this, visitor)
 
     /** Deletes this entry and its descendants without following symbolic links. */
-    suspend fun deleteRecursively() {
+    fun deleteRecursively() {
         FileTreeWalker(followLinks = false).walk(this, object : SyncFileTreeVisitor {
             private fun deleteAndContinue(path: SyncPath): FileTreeVisitResult {
                 path.deleteExisting()
@@ -335,6 +347,15 @@ interface SyncPath: Path, SyncWritableResource {
 
 /** A path with suspending file operations. Unsupported metadata is returned as null where applicable. */
 interface AsyncPath: Path, AsyncWritableResource {
+    companion object {
+        /**
+         * Creates a path in [FileSystem.default].
+         * @throws IllegalStateException if no default file system is available.
+         */
+        operator fun invoke(vararg path: String): AsyncPath =
+            Path(*path).asAsync()
+    }
+
     override val fileSystem: AsyncFileSystem
 
     override suspend fun mimeType(): String = fileSystem.mimeType(this)

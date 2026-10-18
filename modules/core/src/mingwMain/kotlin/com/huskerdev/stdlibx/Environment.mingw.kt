@@ -42,3 +42,7 @@ actual fun env(): Map<String, String> {
         }
     } finally { FreeEnvironmentStringsW(block) }
 }
+
+actual val systemLineSeparator: String = "\r\n"
+actual val systemPathSeparator: String = ";"
+actual val systemSeparator: String = "\\"

@@ -25,6 +25,9 @@ interface FileSystem {
     companion object {
         /** The platform's default user file system, or null when none is available. */
         val default: UserFileSystem? = currentUserFileSystem
+
+        val defaultSync: SyncUserFileSystem? = default?.asSync()
+        val defaultAsync: AsyncUserFileSystem? = default?.asAsync()
     }
     /** Identifies compatible paths across synchronous and asynchronous views. */
     val identity: Any

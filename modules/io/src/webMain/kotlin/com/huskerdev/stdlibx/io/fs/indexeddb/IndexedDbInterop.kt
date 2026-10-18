@@ -188,7 +188,7 @@ internal suspend fun <T : JsAny?> Promise<T>.awaitDb(): T = suspendCancellableCo
 
 internal fun indexedDbError(path: Path, error: DbError?): Exception = when (error?.name) {
     "ConstraintError" -> FileAlreadyExistsException(path)
-    "SecurityError" -> com.huskerdev.stdlibx.io.SecurityException(error?.message ?: "Database access forbidden by security policy")
+    "SecurityError" -> com.huskerdev.stdlibx.io.SecurityException(error.message ?: "Database access forbidden by security policy")
     "NotAllowedError" -> AccessDeniedException(path)
     else -> FileSystemException(path, "${error?.name ?: "IndexedDB"}: ${error?.message ?: "Database operation failed"}")
 }

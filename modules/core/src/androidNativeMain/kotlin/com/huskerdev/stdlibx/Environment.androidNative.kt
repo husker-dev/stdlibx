@@ -31,6 +31,10 @@ actual val workingDir: String
         @Suppress("UNREACHABLE_CODE") ""
     }
 
+actual val systemLineSeparator: String = "\n"
+actual val systemPathSeparator: String = ":"
+actual val systemSeparator: String = "/"
+
 actual val isShutdownHookSupported: Boolean = false
 
 actual fun addShutdownHook(action: () -> Unit) = Unit

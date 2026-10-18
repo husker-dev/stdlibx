@@ -24,6 +24,10 @@ actual val workingDir: String
         @Suppress("UNREACHABLE_CODE") ""
     }
 
+actual val systemLineSeparator: String = "\n"
+actual val systemPathSeparator: String = ":"
+actual val systemSeparator: String = "/"
+
 actual fun env(): Map<String, String> = buildMap {
     val entries = platform.posix.__environ
     var index = 0

@@ -14,3 +14,7 @@ actual val workingDir: String
 actual val isShutdownHookSupported: Boolean = false
 
 actual fun addShutdownHook(action: () -> Unit) = Unit
+
+actual val systemLineSeparator: String = "\n"
+actual val systemPathSeparator: String = ":"
+actual val systemSeparator: String = "/"

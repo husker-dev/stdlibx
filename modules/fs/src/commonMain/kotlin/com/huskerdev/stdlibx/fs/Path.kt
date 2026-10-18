@@ -3,11 +3,13 @@
 package com.huskerdev.stdlibx.fs
 
 import com.huskerdev.stdlibx.io.*
+import kotlinx.serialization.Serializable
 
 /**
  * A path within a [fileSystem]. Constructing or transforming it does not require the entry to exist.
  * File operations use the portable exception types documented by [FileSystem].
  */
+@Serializable(with = PathSerializer::class)
 interface Path: WritableResource {
     companion object {
         /**
@@ -133,6 +135,7 @@ interface Path: WritableResource {
 }
 
 /** A path with blocking file operations. Unsupported metadata is returned as null where applicable. */
+@Serializable(with = SyncPathSerializer::class)
 interface SyncPath: Path, SyncWritableResource {
     companion object {
         /**
@@ -346,6 +349,7 @@ interface SyncPath: Path, SyncWritableResource {
 }
 
 /** A path with suspending file operations. Unsupported metadata is returned as null where applicable. */
+@Serializable(with = AsyncPathSerializer::class)
 interface AsyncPath: Path, AsyncWritableResource {
     companion object {
         /**

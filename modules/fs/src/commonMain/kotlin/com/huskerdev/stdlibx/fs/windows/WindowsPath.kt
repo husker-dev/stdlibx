@@ -1,12 +1,14 @@
 package com.huskerdev.stdlibx.fs.windows
 
 import com.huskerdev.stdlibx.fs.*
+import kotlinx.serialization.Serializable
 
 /**
  * A Windows-style path independent of the host OS. Ordinary paths accept either separator;
  * extended paths retain their original spelling. Device paths and alternate data streams are unsupported.
  * Path comparisons ignore case and do not check whether entries refer to the same file.
  */
+@Serializable(with = WindowsPathSerializer::class)
 open class WindowsPath(
     path: String,
     override val fileSystem: WindowsFileSystem
@@ -289,6 +291,7 @@ open class WindowsPath(
 }
 
 /** A Windows-style path with blocking file operations through [fileSystem]. */
+@Serializable(with = SyncWindowsPathSerializer::class)
 class SyncWindowsPath(
     path: String,
     override val fileSystem: SyncWindowsFileSystem
@@ -307,6 +310,7 @@ class SyncWindowsPath(
 }
 
 /** A Windows-style path with suspending file operations through [fileSystem]. */
+@Serializable(with = AsyncWindowsPathSerializer::class)
 class AsyncWindowsPath(
     path: String,
     override val fileSystem: AsyncWindowsFileSystem

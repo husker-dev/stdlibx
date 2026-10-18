@@ -1,8 +1,10 @@
 package com.huskerdev.stdlibx.fs.unix
 
 import com.huskerdev.stdlibx.fs.*
+import kotlinx.serialization.Serializable
 
 /** A Unix-style path independent of the host OS. Path comparisons are case-sensitive and do not access files. */
+@Serializable(with = UnixPathSerializer::class)
 open class UnixPath(
     path: String,
     override val fileSystem: UnixFileSystem
@@ -198,6 +200,7 @@ open class UnixPath(
 }
 
 /** A Unix-style path with blocking file operations through [fileSystem]. */
+@Serializable(with = SyncUnixPathSerializer::class)
 class SyncUnixPath(
     path: String,
     override val fileSystem: SyncUnixFileSystem
@@ -216,6 +219,7 @@ class SyncUnixPath(
 }
 
 /** A Unix-style path with suspending file operations through [fileSystem]. */
+@Serializable(with = AsyncUnixPathSerializer::class)
 class AsyncUnixPath(
     path: String,
     override val fileSystem: AsyncUnixFileSystem

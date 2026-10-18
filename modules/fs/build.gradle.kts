@@ -9,6 +9,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish)
 }
 
@@ -95,10 +96,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":modules:io"))
+            implementation(libs.kotlinx.serialization.core)
             implementation(libs.kotlinx.coroutines)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
+            implementation(libs.kotlinx.serialization.json)
         }
         getByName("androidDeviceTest") {
             dependencies {

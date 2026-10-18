@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalWasmJsInterop::class)
+@file:Suppress("unused")
 
 package com.huskerdev.stdlibx.io.fs.indexeddb
 

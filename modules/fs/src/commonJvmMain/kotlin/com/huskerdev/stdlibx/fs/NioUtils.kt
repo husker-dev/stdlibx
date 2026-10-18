@@ -3,6 +3,7 @@
 package com.huskerdev.stdlibx.fs
 
 import com.huskerdev.stdlibx.OS
+import java.io.File
 import java.nio.file.Files
 import java.nio.file.LinkOption
 import java.nio.file.StandardOpenOption
@@ -18,6 +19,8 @@ import java.nio.file.attribute.PosixFilePermissions
 import kotlin.time.toJavaInstant
 import kotlin.time.toKotlinInstant
 
+val Path.file: File
+    get() = File(absoluteString())
 
 internal fun linkOption(followLinks: Boolean): Array<LinkOption> =
     if(followLinks) emptyArray() else arrayOf(LinkOption.NOFOLLOW_LINKS)

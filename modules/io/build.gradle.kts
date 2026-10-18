@@ -75,7 +75,9 @@ kotlin {
         compileSdk {
             version = release(35)
         }
-        withDeviceTest {
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }.configure {
             instrumentationRunner = "com.huskerdev.stdlibx.io.IoTestRunner"
         }
     }
@@ -110,7 +112,6 @@ kotlin {
             implementation(kotlin("test"))
         }
         getByName("androidDeviceTest") {
-            dependsOn(commonTest.get())
             dependencies {
                 implementation(kotlin("test"))
                 implementation(libs.androidx.test.runner)

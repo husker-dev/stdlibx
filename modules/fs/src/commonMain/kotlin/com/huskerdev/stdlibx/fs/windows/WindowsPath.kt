@@ -195,7 +195,7 @@ open class WindowsPath(
             when (name) {
                 "." -> Unit
                 ".." -> when {
-                    result.isNotEmpty() && result.last() != ".." -> result.removeLast()
+                    result.isNotEmpty() && result.last() != ".." -> result.removeAt(result.lastIndex)
                     !pathRoot.anchored -> result.add(name)
                     else -> Unit
                 }

@@ -28,6 +28,7 @@ kotlin {
         }
     }
     jvmToolchain(24)
+
     jvm {
         compilations.configureEach {
             compileTaskProvider.get().compilerOptions {
@@ -57,6 +58,11 @@ kotlin {
             implementation(kotlin("test"))
         }
     }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 mavenPublishing {

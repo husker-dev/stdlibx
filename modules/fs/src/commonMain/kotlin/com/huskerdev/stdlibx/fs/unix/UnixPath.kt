@@ -73,7 +73,7 @@ open class UnixPath(
                     "." -> Unit
                     ".." -> when {
                         isAbsolute && isEmpty() -> Unit
-                        isNotEmpty() && last() != ".." -> removeLast()
+                        isNotEmpty() && last() != ".." -> removeAt(lastIndex)
                         else -> add(it)
                     }
                     else -> add(it)

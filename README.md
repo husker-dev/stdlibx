@@ -13,10 +13,10 @@ Currently, includes the following modules:
 ## Usage
 
 ```kotlin
-implementation("com.huskerdev:stdlibx:2.0.0")
-implementation("com.huskerdev:stdlibx-io:2.0.0")
-implementation("com.huskerdev:stdlibx-fs:2.0.0")
-implementation("com.huskerdev:stdlibx-process:2.0.0")
+implementation("com.huskerdev:stdlibx:2.0.1")
+implementation("com.huskerdev:stdlibx-io:2.0.1")
+implementation("com.huskerdev:stdlibx-fs:2.0.1")
+implementation("com.huskerdev:stdlibx-process:2.0.1")
 ```
 
 ## Modules

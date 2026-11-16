@@ -1,0 +1,142 @@
+namespace global {
+    [internal, critical] void init_fonts();
+    [internal, critical] i32 get_last_error();
+
+    [internal] Array<NativeFontFace> get_system_font_faces();
+
+    [internal] i32 faces_count_from_bytes(Array<i8> bytes);
+    [internal] i32 faces_count_from_file(string path);
+    [internal] NativeFontFace? create_font_face_from_bytes(Array<i8> bytes, i32 face_index);
+    [internal] NativeFontFace? create_font_face_from_file(string path, i32 face_index);
+
+    /*  ===========================
+        font_index,
+        glyph_id,
+        x,
+        y,
+        x_advance,
+        y_advance
+    */
+    [internal] Array<f64> layout_info(
+        Array<NativeFont> fonts,
+        i32 default_fonts_count,
+        string text,
+        Array<i32> utf8_text_layout,  // [offset, length, type] | type: 0 = text, 1 = emoji
+        Array<i32> feature_keys,
+        Array<bool> feature_values,
+        TextDirection direction,
+        string? language,
+    );
+
+    /*  ===========================
+        width,
+        actualBoundingBoxLeft,
+        actualBoundingBoxRight,
+        actualBoundingBoxAscent,
+        actualBoundingBoxDescent,
+        fontBoundingBoxAscent,
+        fontBoundingBoxDescent,
+        hangingBaseline,
+        ideographicBaseline,
+    */
+    [internal] Array<f64> measure(
+        Array<NativeFont> fonts,
+        i32 default_fonts_count,
+        string text,
+        Array<i32> utf8_text_layout,
+        Array<i32> feature_keys,
+        Array<bool> feature_values,
+        TextDirection direction,
+        string? language,
+    );
+
+    [internal] Array<NativeRenderedGlyph?>? render_glyphs(
+        Array<NativeFont> fonts,
+        Array<i32> glyphs,  // pairs: [font_index, glyph_id]
+        RenderMode mode
+    );
+};
+
+[internal]
+dictionary NativeVariationInfo {
+    i32 key;
+    f32 def;
+    f32 min;
+    f32 max;
+};
+
+[internal]
+dictionary NativeFontFaceInfo {
+    string family;
+    string post_script_name;
+    string style_name;
+    i32 face_index;
+    FontFormat format;
+    f32 width;
+    bool italic;
+    f32 weight;
+    bool kerning;
+    f32 slant;
+    f32 optical_size;
+    bool has_variations;
+    Array<i32> features;
+    Array<NativeVariationInfo>? variations; // null for static faces; actual axes for variable faces
+};
+
+[internal]
+dictionary NativeRenderedGlyph {
+    Array<i8> bytes;
+    PixelMode pixel_mode;
+    i32 width;
+    i32 height;
+    i32 offsetX;
+    i32 offsetY;
+};
+
+[internal]
+interface NativeFontFace {
+    NativeFontFaceInfo description();
+
+    // All features/variations will include only possible values from description
+    NativeFont create_font(
+        f32 size,
+        Array<i32> variation_keys,
+        Array<f64> variation_values,
+    );
+};
+
+[internal]
+interface NativeFont {};
+
+enum TextDirection {
+    "AUTO",
+    "LTR",
+    "RTL"
+};
+
+enum RenderMode {
+    "NORMAL",
+    "LCD",
+    "LCD_V"
+};
+
+enum PixelMode {
+    "GRAY",
+    "LCD",
+    "LCD_V",
+    "BGRA"
+};
+
+enum FontFormat {
+    "Unknown",
+    "TrueType",
+    "Type1",
+    "BDF",
+    "PCF",
+    "Type42",
+    "CIDType1",
+    "CFF",
+    "CFF2",
+    "PFR",
+    "WindowsFNT"
+};

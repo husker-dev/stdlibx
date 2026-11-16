@@ -6,6 +6,7 @@ include("modules:core")
 include("modules:io")
 include("modules:fs")
 include("modules:process")
+include("modules:font")
 
 pluginManagement {
     repositories {
